@@ -1,0 +1,14 @@
+[Unit]
+Description=run_app
+After=docker.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=no
+RestartSec=1
+User=ec2-user
+ExecStart=/usr/bin/env sudo bash /home/ec2-user/run_app.sh
+
+[Install]
+WantedBy=multi-user.target

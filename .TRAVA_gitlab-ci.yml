@@ -1,0 +1,19 @@
+image: guss77/dind-awscli
+##
+services:
+  - docker:dind
+stages:
+  - package
+  - deploy
+
+build_and_push_image:
+  stage: package
+  before_script:
+    - docker login registry.gitlab.com -u $K8S_SECRET_GITLAB_REGISTRY_LOGIN -p $K8S_SECRET_GITLAB_REGISTRY_PASSWORD
+  script:
+    - ./ci_cd/build_and_delivery.sh
+
+refresh_app_server:
+  stage: deploy
+  script:
+    - ./ci_cd/update_app.sh
