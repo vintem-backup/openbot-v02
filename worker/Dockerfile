@@ -3,5 +3,5 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 ADD . /worker
 WORKDIR /worker
-#COPY code/* worker/
+COPY src/* worker/
 CMD python main.py
