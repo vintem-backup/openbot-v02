@@ -1,0 +1,119 @@
+[
+    {   "strategy_name": "alfa",
+        "state": "<off>",
+        "market": "btcusdt",
+        "stock_exchenge": "binance",
+        "position": "<sell_side>",
+        "allotment":"1000",
+        "n_trades":"0",
+        "parameters": {
+            "price": {
+                "source": "close",
+                "n_samples": "3",
+                "from_samples": "5"
+            },
+            "indicators_values": {
+                "short_ma": "23",
+                "long_ma": "2345"
+            },
+            "stop_config": {
+                "stop_price": "3400.45",
+                "stop_tolerance": "5",
+                "price":{
+                    "source": "high",
+                    "n_samples": "3",
+                    "from_samples": "5"
+                },
+                "tranding_stop": {
+                    "source": "low",
+                    "n_samples": "3",
+                    "from_samples": "5"
+                }
+            }
+    
+    
+    
+        }
+    
+    
+    },
+
+    {   "strategy_name": "bravo",
+        "state": "<off>",
+        "market": "btcusdt",
+        "stock_exchenge": "binance",
+        "position": "<sell_side>",
+        "allotment":"1000",
+        "n_trades":"0",
+        "parameters": {
+            "price": {
+                "source": "close",
+                "n_samples": "3",
+                "from_samples": "5"
+            },
+            "indicators_values": {
+                "short_ma": "23",
+                "long_ma": "2345"
+            },
+            "stop_config": {
+                "stop_price": "3400.45",
+                "stop_tolerance": "5",
+                "price":{
+                    "source": "high",
+                    "n_samples": "3",
+                    "from_samples": "5"
+                },
+                "tranding_stop": {
+                    "source": "low",
+                    "n_samples": "3",
+                    "from_samples": "5"
+                }
+            }
+    
+    
+    
+        }
+    
+    
+    },
+
+    {   "strategy_name": "charlie",
+        "state": "<off>",
+        "market": "btcusdt",
+        "stock_exchenge": "binance",
+        "position": "<sell_side>",
+        "allotment":"1000",
+        "n_trades":"0",
+        "parameters": {
+            "price": {
+                "source": "close",
+                "n_samples": "3",
+                "from_samples": "5"
+            },
+            "indicators_values": {
+                "short_ma": "23",
+                "long_ma": "2345"
+            },
+            "stop_config": {
+                "stop_price": "3400.45",
+                "stop_tolerance": "5",
+                "price":{
+                    "source": "high",
+                    "n_samples": "3",
+                    "from_samples": "5"
+                },
+                "tranding_stop": {
+                    "source": "low",
+                    "n_samples": "3",
+                    "from_samples": "5"
+                }
+            }
+    
+    
+    
+        }
+    
+    
+    }
+  ]
+
