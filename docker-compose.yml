@@ -8,6 +8,18 @@ services:
     container_name: "$es_db_name"
     volumes:
       - esdata:/usr/share/elasticsearch/data
+  worker:
+    image:
+    ports:
+      9200:9200
+      80:80 #(ou 8080:80 ou 80:8080 ?)
+    container_name:
+    environment: #verificar sintaxe
+      - $strategy
+      - $state #(na operação teste, essa variável será desprezada, em virtude da comodidade
+               #de o container já embarcar o estado da operação)
+      - $market
+      - $stock_exchange
 
 volumes:
   esdata:
