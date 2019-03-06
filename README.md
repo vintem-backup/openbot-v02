@@ -9,5 +9,5 @@ teste pull/push 06.03.19 2 - push
 (divergiu!)  
 Na verdade estava ok, precisava formatar  
 
-teste pull/push 06.03.19 ***2 - pull***  (ok) 
-teste pull/push 06.03.19 ***2 - push*** 
+teste pull/push 06.03.19 ***2 - pull***  
+teste pull/push 06.03.19 ***2 - push***  
