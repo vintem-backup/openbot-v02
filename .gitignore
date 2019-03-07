@@ -1,3 +1,4 @@
 test-local-run.sh
 __pycache__/
 .directory
+DEPRECATED_with_args_main.py

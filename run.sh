@@ -1,33 +1,35 @@
 #!/bin/bash
 
-#Recupera o ID desta instância:
-#instanceid=`/usr/bin/curl -s http://169.254.169.254/latest/meta-data/instance-id`
-    #OBS.: É preciso liberar a porta 80 para este CIDR (169.254.169.254/32)
-
-#Associa o IP a esta instância
-#aws ec2 associate-address --region us-east-1 --instance-id $instanceid --public-ip 3.92.67.179
-
-#Exporta as variáveis de ambiente no arquivo cluster.env
-
-echo 'Lendo e exportando variáveis de ambiente'
+#Exporting environment variables
 set -a
-. ./cluster.env
+. ./.env
 set +a
 
-echo 'Lendo e exportando credenciais'
-set -b
-. ./credentials.env
-set +b
+#update the vm.max_map_count system limit: 
+sudo sysctl -w vm.max_map_count=262144
 
-#Limpando credenciais
-#rm -f . ./credenciais.env
+if [ "$run_set" = "from_build" ]
+then
+    docker-compose -f ./compose/local.yml down
+    docker-compose -f ./compose/local.yml -p $operational_name up #-d'
 
-#Loga no registry
-#docker login registry.gitlab.com -u $GITLAB_REGISTRY_LOGIN -p $GITLAB_REGISTRY_PASSWORD
+elif [ "$run_set" = "aws" ]
+then
+    #Recupera o ID desta instância:
+    instanceid=`/usr/bin/curl -s http://169.254.169.254/latest/meta-data/instance-id`
+    #OBS.: É preciso liberar a porta 80 para este CIDR (169.254.169.254/32)
 
-echo 'Parando docker cluster'
-#docker-compose down
+    #Associa o IP a esta instância
+    aws ec2 associate-address --region $aws_default_region --instance-id $instanceid --public-ip $aws_instance_set_ip
 
-echo 'Subindo cluster atachado a volume(s)'
-#docker-compose up #&>/dev/null &
-#&>/dev/null & "muta" a saida do docker-compose
+    #Loga no host das imagens docker
+    docker login $docker_image_host -u $GITLAB_REGISTRY_LOGIN -p $GITLAB_REGISTRY_PASSWORD
+
+    docker-compose -f ./compose/remote.yml down
+    docker-compose -f ./compose/remote.yml -p $operational_name up -d 
+
+    rm -f . ./.env
+
+else
+    echo "Not a valid environment"
+fi

@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  es_db:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
+    ports:
+      - 9200:9200
+    container_name: "${operation_name}_es_db"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+volumes:
+  esdata:
+    driver: local
