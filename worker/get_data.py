@@ -11,9 +11,11 @@ import time
 import lib
 from lib import notice
 
-notice.telegram_bot('trade','msg_entrada').send()
+notice.telegram_bot('msg_entrada').trade()
 
+i=0
 while True:
     
-    notice.telegram_bot('trade','msg_ciclo').send()
+    notice.telegram_bot('msg_ciclo '+str(i)).trade()
+    i+=1
     time.sleep(30)

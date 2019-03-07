@@ -9,33 +9,29 @@ from telegram.ext import Updater, CommandHandler
 
 class telegram_bot:
     
-    def __init__(self,tag,message):
-        self.tag=tag
+    def __init__(self,message):
+        self.fail='Telegram fail'
         self.message=message
+        self.bot = telegram.Bot(token=os.environ['telegram_bot_token'])
+        pass
 
-        if  (self.tag == 'trade'):
-            self.ident = os.environ['telegram_trade_chat_id']
-       
-        elif  (self.tag == 'control'):
-            self.ident = os.environ['telegram_control_chat_id']
+    def trade(self):
+        try:
+            self.bot.send_message(chat_id=os.environ['telegram_trade_chat_id'], text=self.message)
+        except:
+            print(self.fail)
+        pass
 
-        elif  (self.tag == 'warning'):
-            self.ident = os.environ['telegram_warning_chat_id']
-        
-        else:
-            print('Not a valid tag')
-        
+    def control(self):
+        try:
+            self.bot.send_message(chat_id=os.environ['telegram_control_chat_id'], text=self.message)
+        except:
+            print(self.fail)
         pass
     
-    def send(self):
-        bot = telegram.Bot(token=os.environ['telegram_bot_token'])
-        
+    def warning(self):
         try:
-            bot.send_message(chat_id=self.ident, text=self.message)
-        
+            self.bot.send_message(chat_id=os.environ['telegram_warning_chat_id'], text=self.message)
         except:
-            mess = 'Falha no telegram'
-            #mail_sender2(mess)
-            print (mess)
-
+            print(self.fail)
         pass
