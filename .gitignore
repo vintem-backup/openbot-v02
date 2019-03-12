@@ -1,5 +1,5 @@
 __pycache__/
 .directory
 DEPRECATED*
-#test*
-.env
+test*
+dev.env

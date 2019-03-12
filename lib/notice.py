@@ -37,3 +37,4 @@ class Telegrambot:
             self.bot.send_message(chat_id=os.environ['telegram_warning_chat_id'], text=self.message)
         except Exception as e:
             print(self.fail + str(e))
+            #

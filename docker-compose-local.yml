@@ -14,7 +14,7 @@ services:
     depends_on:
       - es_db
     env_file:
-      - ./.env
+      - ./$env_file
     build:
       context: .
       dockerfile: ./get_data/Dockerfile
@@ -25,7 +25,7 @@ services:
       - es_db
       - get_data
     env_file:
-      - ./.env
+      - ./$env_file
     build:
       context: .
       dockerfile: ./worker/Dockerfile

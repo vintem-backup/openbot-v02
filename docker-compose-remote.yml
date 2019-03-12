@@ -1,6 +1,7 @@
-version: '3'
+version: '3.7'
 
 services:
+  
   es_db:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
     ports:
@@ -8,17 +9,23 @@ services:
     container_name: "${operation_name}_es_db"
     volumes:
       - esdata:/usr/share/elasticsearch/data
-#  worker:
-#    image:
-#    ports:
-#      9200:9200
-#      80:80 #(ou 8080:80 ou 80:8080 ?)
-#    container_name: "$operation_name"
-#    environment: #verificar sintaxe
-#      - $strategy
-#      - $state
-#      - $market
-#      - $stock_exchange
+  
+  get_data:
+    depends_on:
+      - es_db
+    env_file:
+      - ./$env_file
+    image: "${docker_image_host}/${image_path}/get_data"
+    container_name: "${operation_name}_get_data"
+
+  worker:
+    depends_on:
+      - es_db
+      - get_data
+    env_file:
+      - ./$env_file
+    image: "${docker_image_host}/${image_path}/worker"
+    container_name: "${operation_name}_worker"
 
 volumes:
   esdata:

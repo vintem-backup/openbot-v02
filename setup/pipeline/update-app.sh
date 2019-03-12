@@ -10,3 +10,4 @@ instanceid=`aws ec2 describe-instances --region us-east-1 --filters 'Name=tag:Na
 
 #Termina a instância
 aws ec2 terminate-instances --region us-east-1 --instance-id $instanceid
+#

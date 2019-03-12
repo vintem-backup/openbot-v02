@@ -20,11 +20,11 @@ from lib import notice
 
 msg = str((open(os.environ["strategy"]+'.txt',"r")).read())
 
-notice.Telegrambot('Start worker-test').trade()
+notice.Telegrambot('Start get_data-test | from '+os.environ["environment"]).trade()
 
 i=0
 while True:
     
-    notice.Telegrambot(msg+' | cycle: '+str(i)).trade()
+    notice.Telegrambot(msg+' | cycle: '+str(i)+' | from '+os.environ["environment"]).trade()
     i+=1
     time.sleep(30)
