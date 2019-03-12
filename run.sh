@@ -10,8 +10,11 @@ sudo sysctl -w vm.max_map_count=262144
 
 if [ "$run_set" = "from_build" ]
 then
-    docker-compose -f ./compose/local.yml down
-    docker-compose -f ./compose/local.yml -p $operational_name up #-d'
+    docker-compose -f ./docker-compose-local.yml down
+    docker-compose -f ./docker-compose-local.yml -p $operation_name build
+    docker-compose -f ./docker-compose-local.yml -p $operation_name up -d
+    
+    rm -f README.env
 
 elif [ "$run_set" = "aws" ]
 then
@@ -25,10 +28,10 @@ then
     #Loga no host das imagens docker
     docker login $docker_image_host -u $GITLAB_REGISTRY_LOGIN -p $GITLAB_REGISTRY_PASSWORD
 
-    docker-compose -f ./compose/remote.yml down
-    docker-compose -f ./compose/remote.yml -p $operational_name up -d 
+    docker-compose -f ./docker-compose-remote.yml down
+    docker-compose -f ./docker-compose-remote.yml -p $operation_name up -d 
 
-    rm -f . ./.env
+    rm -f README.env
 
 else
     echo "Not a valid environment"
