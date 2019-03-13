@@ -21,9 +21,11 @@ class Telegrambot:
         '''Notifications to trade chat.'''
         try:
             self.bot.send_message(chat_id=os.environ['telegram_trade_chat_id'], text=self.message)
+            return 'done'
         except Exception as e:
             print(self.fail + str(e))
-
+            return 'undone'
+        
     def monitoring(self):
         '''Notifications to monitoring chat.'''
         try:
@@ -37,4 +39,3 @@ class Telegrambot:
             self.bot.send_message(chat_id=os.environ['telegram_warning_chat_id'], text=self.message)
         except Exception as e:
             print(self.fail + str(e))
-            #

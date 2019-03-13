@@ -1,21 +1,28 @@
 #alpha.py
 
-#!/usr/bin/env python3
-# coding: utf-8
+#===================================================================================#
+#                                 * COMMON HEADER *                                 #
+#===================================================================================#
+#!/usr/bin/env python3                                                              #
+# coding: utf-8                                                                     #
+                                                                                    #
+import os                                                                           #
+import sys                                                                          #
+                                                                                    #
+if (os.environ["environment"] == 'local_dev'):                                      #
+    sys.path.append(os.getcwd().split(sep="docker-cluster")[0]+'docker-cluster/')   #
+else:                                                                               #
+    sys.path.append(os.getcwd())                                                    #
+                                                                                    #
+import lib                                                                          #
+#===================================================================================#
 
-'''
+'''Script "teste_padrão" para validação da estrutura do cluster'''
 
-Script "teste_padrão" para validação da estrutura do cluster
+#__MAIN__
 
-'''
-
-import os
-import sys
+#Specific modules
 import time
-
-sys.path.append(os.getcwd())
-
-import lib
 from lib import notice
 
 msg = str((open(os.environ["strategy"]+'.txt',"r")).read())
