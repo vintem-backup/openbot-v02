@@ -9,10 +9,7 @@
 import os                                                                           #
 import sys                                                                          #
                                                                                     #
-if (os.environ["environment"] == 'local_dev'):                                      #
-    sys.path.append(os.getcwd().split(sep="docker-cluster")[0]+'docker-cluster/')   #
-else:                                                                               #
-    sys.path.append(os.getcwd())                                                    #
+sys.path.append(os.getcwd())                                                        #
                                                                                     #
 import lib                                                                          #
 #===================================================================================#

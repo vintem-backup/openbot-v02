@@ -4,4 +4,3 @@ RUN pip install -r requirements.txt
 COPY lib/ lib/
 COPY worker/ /
 CMD (python ${strategy}.py)
-#

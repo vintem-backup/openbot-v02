@@ -1,21 +1,25 @@
 #binance.py
 
-#!/usr/bin/env python3
-# coding: utf-8
+#===================================================================================#
+#                                 * COMMON HEADER *                                 #
+#===================================================================================#
+#!/usr/bin/env python3                                                              #
+# coding: utf-8                                                                     #
+                                                                                    #
+import os                                                                           #
+import sys                                                                          #
+                                                                                    #
+sys.path.append(os.getcwd())                                                        #
+                                                                                    #
+import lib                                                                          #
+#===================================================================================#
 
-'''
+'''Script "teste_padrão" para validação da estrutura do cluster'''
 
-Script "teste_padrão" para validação da estrutura do cluster
+#__MAIN__
 
-'''
-
-import os
-import sys
+#Specific modules
 import time
-
-sys.path.append(os.getcwd())
-
-import lib
 from lib import notice
 
 msg = str((open(os.environ["stock_exchange"]+'.txt',"r")).read())
