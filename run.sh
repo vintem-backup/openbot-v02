@@ -12,10 +12,10 @@ Usage: ./run.sh <op>
 export env_file="dev.env"  
 
 if [ $1 = 0 ]; then
-    export env_file=".env"
+    export env_file="/efs/.env"
     if [ -f .env ]; then
         set -a
-        . ./.env
+        . ./efs/.env
         set +a
 
         #update the vm.max_map_count system limit: 

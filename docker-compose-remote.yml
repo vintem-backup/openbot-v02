@@ -1,14 +1,14 @@
-version: '3.7'
+version: '3.0'
 
 services:
   
   es_db:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
     ports:
-      - 9200:9200
+      - "${es_container_port}:${es_dockerhost_port}"
     container_name: "${operation_name}_es_db"
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - "esdata:${volume_path}elasticsearch/data"
   
   get_data:
     depends_on:
