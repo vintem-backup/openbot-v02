@@ -51,7 +51,7 @@ elif [ $1 = 1 ]; then
         sudo sysctl -w vm.max_map_count=262144
     
         docker-compose -f ./docker-compose-local.yml down
-        docker-compose -f ./docker-compose-local.yml -p $operation_name build
+        docker-compose -f ./docker-compose-local.yml -p $operation_name build --no-cache
         docker-compose -f ./docker-compose-local.yml -p $operation_name up #-d
     
     else
