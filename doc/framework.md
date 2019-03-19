@@ -62,3 +62,5 @@
 >>1 - Checka se o banco de dados está ativado e o ativa, caso não esteja.  
 >>2 - Faz a leitura, a partir do banco de dados, do index **master***    
         *Por hora um "container provisório" escreverá as alterações no index master.
+
+        #
