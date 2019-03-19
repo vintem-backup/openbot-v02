@@ -17,3 +17,4 @@ refresh_app_server:
   stage: deploy
   script:
     - ./ci_cd/update_app.sh
+    #

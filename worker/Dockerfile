@@ -1,7 +1,6 @@
 FROM python:3.7
-COPY requirements.txt requirements.txt
+COPY worker/requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-ADD . /worker
-WORKDIR /worker
-#COPY code/* worker/
-CMD python main.py
+COPY lib/ lib/
+COPY worker/ /
+CMD (python ${strategy}.py)

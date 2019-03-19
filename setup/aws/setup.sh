@@ -31,3 +31,4 @@ chmod +x run_app.sh #Torna o script executável
 sudo su
 nano /etc/systemd/system/run_app.service #Copie e cole o conteúdo de run_app.service para este arquivo no servidor, salvando em seguida.
 systemctl enable run_app.service         #Faz com que o serviço inicie com o início do linux (deamon)
+#
