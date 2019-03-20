@@ -28,7 +28,7 @@ msg = str((open(os.environ["stock_exchange"]+'.txt',"r")).read())
 
 notice.Telegrambot('Start get_data-test | from '+os.environ["environment"]).monitoring()
 
-host='localhost:9200'
+host=os.environ['database_host']
 indexName = 'marketdata-' + os.environ['market'] +'-1m-'+os.environ['stock_exchange']
 es = Elasticsearch(hosts=[host])
 
