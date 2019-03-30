@@ -19,11 +19,8 @@ services:
       context: .
       dockerfile: ./get_data/Dockerfile
     container_name: "${operation_name}_get_data"
-<<<<<<< HEAD
-=======
     stdin_open: true #
     tty: true #
->>>>>>> 2a5c0de7750ec1dddcde9ff35ee40e771d0cc256
 
   worker:
     depends_on:
