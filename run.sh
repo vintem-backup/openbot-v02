@@ -7,6 +7,7 @@ Usage: ./run.sh <op>
 [1] - Dev 1   | Run the cluster on local machine, from locally built container`s images.
 [2] - Dev 2   | Build the containers` images and push them to specific docker registry.
 [3] - Dev 3   | Run the cluster on local machine, from remote container`s images.
+[4] - Dev 4   | Up the dev database, for python tests
 '
 
 export env_file="dev.env"  
@@ -83,6 +84,26 @@ elif [ $1 = 2 ]; then
     fi
 
 elif [ $1 = 3 ]; then
+    if [ -f dev.env ]; then
+        set -a
+        . ./dev.env
+        set +a
+        
+        #update the vm.max_map_count system limit: 
+        sudo sysctl -w vm.max_map_count=262144
+
+        #Loga no host das imagens docker
+        docker login $docker_image_host -u $registry_login -p $registry_password
+
+        #Sobe o cluster
+        docker-compose -f ./docker-compose-remote.yml down
+        docker-compose -f ./docker-compose-remote.yml -p $operation_name up -d
+
+    else
+        echo 'Arquivo dev.env não encontrado.'
+    fi
+
+elif [ $1 = 4 ]; then
     if [ -f dev.env ]; then
         set -a
         . ./dev.env

@@ -5,3 +5,6 @@ test*
 dev.env
 *checkpoint.ipynb
 BACKUP*
+memo.txt
+venv
+.vscode
