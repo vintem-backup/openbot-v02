@@ -7,10 +7,7 @@ Usage: ./run.sh <op>
 [1] - Dev 1   | Run the cluster on local machine, from locally built container`s images.
 [2] - Dev 2   | Build the containers` images and push them to specific docker registry.
 [3] - Dev 3   | Run the cluster on local machine, from remote container`s images.
-<<<<<<< HEAD
 [4] - Dev 4   | Up the dev database, for python tests
-=======
->>>>>>> 2a5c0de7750ec1dddcde9ff35ee40e771d0cc256
 '
 
 export env_file="dev.env"  
