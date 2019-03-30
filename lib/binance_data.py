@@ -268,7 +268,7 @@ def create_marketdata(host,symbol,interval,start_str,end_str=None):
         Taker_buy_quote_asset_vol = Float()
     
         class Index:
-            name =  'marketdata' + '-' + symbol.lower() + '-' + interval + '-' 'binance'
+            name =  'marketdata-' + symbol.lower() + '-' + interval + '-binance'
     
         def save(self, **kwargs):
             return super(Candle, self).save(**kwargs)
@@ -326,7 +326,7 @@ def update_marketdata(host,indexName):
             Taker_buy_quote_asset_vol = Float()
     
             class Index:
-                name =  'marketdata' + '-' + symbol.lower() + '-' + interval + '-' 'binance'
+                name =  'marketdata-' + symbol.lower() + '-' + interval + '-binance'
     
             def save(self, **kwargs):
                 return super(Candle, self).save(**kwargs)                  

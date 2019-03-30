@@ -32,18 +32,24 @@ host=os.environ['database_host']
 indexName = 'marketdata-' + os.environ['market'] +'-1m-'+os.environ['stock_exchange']
 es = Elasticsearch(hosts=[host])
 
+time.sleep(100)
+
 try:
     es.indices.get_alias("*")[indexName]
     try:
         binance_data.live_update_marketdata(host,indexName)
     except:
-        msg = 'Binance connection failure! Check it out.'
+        msg = 'Binance connection failure! Check it out. (1)'
         notice.Telegrambot(msg).warning()   
 except:
     try:
-        binance_data.create_marketdata(host,os.environ['market'].upper(),'1m','1 day ago UTC')
+        binance_data.create_marketdata(host,os.environ['market'].upper(),'1m','1 day ago UTC') 
+        # Change '1 day ago UTC' to years
+        time.sleep(300)
+        binance_data.live_update_marketdata(host,indexName)
+
     except:
-        msg = 'Binance connection failure! Check it out.'
+        msg = 'Binance connection failure! Check it out. (2)'
         notice.Telegrambot(msg).warning()
 
 i=0
