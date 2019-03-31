@@ -360,14 +360,23 @@ def live_update_marketdata(host,indexName):
     i=0    
     while True:
         #print('i:',i)
+        lastCandle_previouslyStored = es.search(index=indexName, size = 1, sort = "_id:desc")
         update_marketdata(host,indexName)
         #print('Banco de dados atualizados.')
-        if i==0:
-            time.sleep(4) # is there any need for this at all?
-            i=1
-        else:
-            time.sleep(1) # is there any need for this at all?
-        lastCandle = es.search(index=indexName, size = 1, sort = "_id:desc")
+
+        while True:
+            time.sleep(1)
+            lastCandle = es.search(index=indexName, size = 1, sort = "_id:desc")
+            if lastCandle != lastCandle_previouslyStored:
+                break
+
+        #if i==0:
+        #    time.sleep(10) # is there any need for this at all?
+        #    i=1
+        #else:
+        #    time.sleep(2) # is there any need for this at all?
+        #lastCandle = es.search(index=indexName, size = 1, sort = "_id:desc")
+
         lastCandle_Open_inSeconds = float(lastCandle['hits']['hits'][0]['_id'])/1000
         #print('OpenTime do Ultimo Candle no Bd: ',lastCandle_Open_inSeconds)
         wait = lastCandle_Open_inSeconds + intervalInSeconds*2 - time.time() 

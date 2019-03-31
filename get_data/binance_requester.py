@@ -32,7 +32,17 @@ host=os.environ['database_host']
 indexName = 'marketdata-' + os.environ['market'] +'-1m-'+os.environ['stock_exchange']
 es = Elasticsearch(hosts=[host])
 
-time.sleep(100)
+# waiting for DB for being ready
+#time.sleep(100)
+
+while True:
+    try:
+        es.indices.get_alias("*")
+        #notice.Telegrambot('DB is ready!').monitoring()
+        break
+    except:
+        #notice.Telegrambot('Waiting DB...').monitoring()
+        time.sleep(10)
 
 try:
     es.indices.get_alias("*")[indexName]
