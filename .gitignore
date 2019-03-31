@@ -8,4 +8,5 @@ memo.txt
 venv
 .vscode
 BACKUP*
+/dev/src/elasticsearch/data
 
