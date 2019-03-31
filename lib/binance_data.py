@@ -381,7 +381,8 @@ def live_update_marketdata(host,indexName):
         #print('OpenTime do Ultimo Candle no Bd: ',lastCandle_Open_inSeconds)
         wait = lastCandle_Open_inSeconds + intervalInSeconds*2 - time.time() 
         #print('Espera: ',wait)
-        time.sleep(wait) 
+        if wait > 0:
+            time.sleep(wait) 
         while True:
             openedCandle_Open = float(get_historical_klines(symbol,interval,'2 minutes ago UTC')[-1][0]) #Mod 
             if (lastCandle_Open_inSeconds + 120)*1000 == openedCandle_Open: #mod
