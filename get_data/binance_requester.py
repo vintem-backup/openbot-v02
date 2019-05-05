@@ -53,10 +53,10 @@ try:
         notice.Telegrambot(msg).warning()   
 except:
     try:
-        binance_data.create_marketdata(host,os.environ['market'].upper(),'1m','1 day ago UTC') 
+        binance_data.create_marketdata(host,os.environ['market'].upper(),'1m','10 year ago UTC') 
         # Change '1 day ago UTC' to years
         time.sleep(300)
-        binance_data.live_update_marketdata(host,indexName)
+        #binance_data.live_update_marketdata(host,indexName)
 
     except:
         msg = 'Binance connection failure! Check it out. (2)'

@@ -9,6 +9,9 @@ services:
     container_name: "${operation_name}_esdb_dev"
     volumes:
       - "esdata:${PWD}/dev/src/elasticsearch/data"
+    networks: 
+      glue:
+        ipv4_address: 172.19.0.2
   
   get_data:
     depends_on:
@@ -19,7 +22,19 @@ services:
       context: "${PWD}"
       dockerfile: "${PWD}/get_data/Dockerfile"
     container_name: "${operation_name}_getdata_dev"
+    stdin_open: true #
+    tty: true #
+    networks: 
+      glue:
+        ipv4_address: 172.19.0.3
 
 volumes:
   esdata:
     driver: local
+
+networks: 
+  glue:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.19.0.0/16
