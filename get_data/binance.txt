@@ -1,1 +1,0 @@
-This is the get_data-test process running
