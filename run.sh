@@ -50,7 +50,11 @@ if [ -f $env_file ]; then
 
         echo 'variáveis exportadas'
 
-        cd DataHandler/$DataHandlerDir
+        cd DataHandler
+
+        source venv/bin/activate
+
+        cd $DataHandlerDir
 
         python manage.py makemigrations
         

@@ -8,6 +8,7 @@ DEPRECATED*
 dev.env
 BKP*
 jupyterlog
+secrets.env
 
 
 # Byte-compiled / optimized / DLL files
