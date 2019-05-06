@@ -6,7 +6,7 @@ services:
     env_file:
       - "dev.env"
     ports:
-      - "5432:5432"
+      - "$DB_PORT:$DB_PORT"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
@@ -15,7 +15,7 @@ services:
   datahandler:
     build: ./DataHandler
     ports:
-      - "3000:3000"
+      - "$DJANGO_PORT:$DJANGO_PORT"
     env_file:
       - "dev.env"
     depends_on:
