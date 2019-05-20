@@ -5,8 +5,8 @@ Usage: ./run.sh <op>
 
 <op>:
 
-[0] - Dev                   - Export variables, run Django aplications pointing to SQLite 
-                             databases; run jupyter notebook for each django aplication.
+[0] - Dev                   - Export variables, run dev database, pgadmin notebooks and 
+                             django servers.
 
 [1] - Staging local 1       - Build and run the cluster with staging PostgreSQL DB container on 
                              local machine.
@@ -24,8 +24,6 @@ Usage: ./run.sh <op>
 
 '
 
-export postgreSQL='True'
-
 if [ $1 = 5 ]; then
     export env_file="/efs/.env"
 else
@@ -38,24 +36,23 @@ if [ -f $env_file ]; then
     . ./dev.env
     set +a
 
-    echo 'DataHandlerDir = ' $DataHandlerDir
-    echo 'create_superuser = '$create_superuser
-    echo 'DJANGO_SUPERUSER_NAME = ' $DJANGO_SUPERUSER_NAME
-    echo 'DJANGO_SUPERUSER_MAIL = ' $DJANGO_SUPERUSER_MAIL
-    echo 'DJANGO_SUPERUSER_PASS = '$DJANGO_SUPERUSER_PASS
-
     if [ $1 = 0 ]; then
 
-        export postgreSQL='False'
+        export DB_HOST='localhost'
 
-        echo 'variáveis exportadas'
+        docker-compose -f compose/dev1.yml down
+        docker-compose -f compose/dev1.yml up -d
 
-        cd DataHandler
+        #jupyter notebook > $PWD/jupyterlog 2>&1 &
 
         source venv/bin/activate
 
+        cd DataHandler
+
         cd $DataHandlerDir
 
+        sleep 60
+        
         python manage.py makemigrations
         
         python manage.py migrate --noinput
@@ -71,9 +68,9 @@ else:
     pass"
         fi
 
-        python manage.py shell_plus --notebook > $PWD/jupyterlog 2>&1 &
+        #python manage.py shell_plus --notebook > $PWD/jupyterlog 2>&1 &
 
-        exec python manage.py runserver localhost:3000
+        exec python manage.py runserver $DJANGO_HOST:$DJANGO_PORT
 
     elif [ $1 = 1 ]; then
 

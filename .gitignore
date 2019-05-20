@@ -9,6 +9,7 @@ dev.env
 BKP*
 jupyterlog
 secrets.env
+downcluster.sh
 
 
 # Byte-compiled / optimized / DLL files

@@ -11,7 +11,18 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - backend
-      
+
+  binancedatastorage:
+    build: ./DataStorageDaemon/$BinanceData
+#    ports:
+#     - "$DJANGO_PORT:$DJANGO_PORT"
+    env_file:
+      - "dev.env"
+    depends_on:
+      - db
+    networks:
+      - backend
+
   datahandler:
     build: ./DataHandler
     ports:
@@ -20,6 +31,7 @@ services:
       - "dev.env"
     depends_on:
       - db
+      - binancedatastorage
     networks:
       - backend
 
@@ -31,6 +43,7 @@ services:
       - "dev.env"
     depends_on:
       - db
+      - binancedatastorage
     networks:
       - backend
 
