@@ -43,7 +43,7 @@ if [ -f $env_file ]; then
         docker-compose -f compose/dev1.yml down
         docker-compose -f compose/dev1.yml up -d
 
-        #jupyter notebook > $PWD/jupyterlog 2>&1 &
+        jupyter notebook > $PWD/jupyterlog 2>&1 &
 
         source venv/bin/activate
 
@@ -68,7 +68,7 @@ else:
     pass"
         fi
 
-        #python manage.py shell_plus --notebook > $PWD/jupyterlog 2>&1 &
+        python manage.py shell_plus --notebook > $PWD/jupyterlog 2>&1 &
 
         exec python manage.py runserver $DJANGO_HOST:$DJANGO_PORT
 
