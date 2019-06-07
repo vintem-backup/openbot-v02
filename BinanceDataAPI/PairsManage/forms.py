@@ -1,7 +1,7 @@
 from django.forms import ModelForm
-from .models import Pair
+from .models import BinancePair
 
 class PairForm(ModelForm):
     class Meta:
-        model = Pair
+        model = BinancePair
         fields = '__all__'

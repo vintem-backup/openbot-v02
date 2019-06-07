@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Pair
+from .models import BinancePair
 from .forms import PairForm
 
 @login_required
 def pairs_list(request):
-    pairs = Pair.objects.all()
-    return render(request, 'getdata/pairs_overview.html', {'var_pairs':pairs})
+    pairs = BinancePair.objects.all()
+    return render(request, 'pairsmanage/pairs_overview.html', {'var_pairs':pairs})
 
 
 @login_required
@@ -15,16 +15,16 @@ def pair_new(request):
     if form.is_valid():
         form.save()
         return redirect('listofpairs')
-    return render(request, 'getdata/pair_form.html',{'var_form':form})
+    return render(request, 'pairsmanage/pair_form.html',{'var_form':form})
 
 @login_required
 def pair_update(request,id):
-    pair = get_object_or_404(Pair, pk=id)
+    pair = get_object_or_404(BinancePair, pk=id)
     form = PairForm(request.POST or None, instance=pair)
     if form.is_valid():
         form.save()
         return redirect('listofpairs')
-    return render(request, 'getdata/pair_form.html',{'var_form':form})
+    return render(request, 'pairsmanage/pair_form.html',{'var_form':form})
 '''
 @login_required
 def person_delete(request,id):

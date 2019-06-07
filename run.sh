@@ -40,16 +40,16 @@ if [ -f $env_file ]; then
 
         export DB_HOST='localhost'
 
-        docker-compose -f compose/dev1.yml down
-        docker-compose -f compose/dev1.yml up -d
+        docker-compose -f DockerCompose/dev1.yml down
+        docker-compose -f DockerCompose/dev1.yml up -d
 
-        jupyter notebook > $PWD/jupyterlog 2>&1 &
+        #jupyter notebook > $PWD/logs/jupyterlog 2>&1 &
 
         source venv/bin/activate
 
-        cd DataHandler
+        cd BinanceDataAPI
 
-        cd $DataHandlerDir
+        #cd $DataHandlerDir
 
         sleep 60
         
@@ -68,9 +68,9 @@ else:
     pass"
         fi
 
-        python manage.py shell_plus --notebook > $PWD/jupyterlog 2>&1 &
+        #python manage.py shell_plus --notebook > $PWD/jupyterlog 2>&1 &
 
-        exec python manage.py runserver $DJANGO_HOST:$DJANGO_PORT
+        python manage.py runserver $DJANGO_HOST:$DJANGO_PORT
 
     elif [ $1 = 1 ]; then
 

@@ -17,7 +17,7 @@
             <div class="w3-container">
                 <li>
                     
-                    <a href="{% url 'updatepair' pair.pair_name %}"> {{ pair.pair_name }}</a> {{ pair.state }}
+                    <a href="{% url 'updatepair' pair.name %}"> {{ pair.name }}</a> {{ pair.get_data }}
                     
                 </li>
             </div>
