@@ -11,6 +11,7 @@ jupyterlog
 secrets.env
 downcluster.sh
 .index
+BinanceDataStorageDaemon/modules
 
 
 # Byte-compiled / optimized / DLL files

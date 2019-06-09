@@ -40,6 +40,9 @@ if [ -f $env_file ]; then
 
         export DB_HOST='localhost'
 
+        rm -rf BinanceDataStorageDaemon/modules/
+        cp -r modules/ BinanceDataStorageDaemon/
+
         docker-compose -f DockerCompose/dev1.yml down
         docker-compose -f DockerCompose/dev1.yml up -d
 
@@ -48,6 +51,8 @@ if [ -f $env_file ]; then
         source venv/bin/activate
 
         cd BinanceDataAPI
+
+        rm -rf  modules/
 
         #cd $DataHandlerDir
 
