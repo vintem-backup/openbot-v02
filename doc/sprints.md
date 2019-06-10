@@ -1,9 +1,6 @@
 # List of project sprints
 
-
-## Sprint 1:
-===========
-### START: 06/05/2019 | 11/05/2019
+## Sprint 1: 06/05/2019 to 11/05/2019
 
 * [x] SPortar o template PostDoDjango para o robô
 * [x] Organizar a estrurura do conteiner BinanceDataApi
@@ -13,9 +10,15 @@ projeto django corrente.
 
 ### REPORT:
 
+lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum 
 
-## Sprint 2:
-
-### START: 13/05/2019 | 18/05/2019
+## Sprint 2: 13/05/2019 to 18/05/2019
 
 * [ ]
+* [ ]
+* [ ]
+* [ ]
+
+### REPORT:
+
+lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum 
