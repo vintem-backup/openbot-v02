@@ -14,10 +14,10 @@ lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ip
 
 ## Sprint 2: 13/05/2019 to 18/05/2019
 
-* [ ]
-* [ ]
-* [ ]
-* [ ]
+* [ ] Task 1
+* [ ] Task 2
+* [ ] Task 3
+* [ ] Task 4
 
 ### REPORT:
 
