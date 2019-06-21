@@ -5,6 +5,7 @@
 import sys
 import os
 from datetime import datetime
+import requests
 from . import notification, db_functions as dbf
 
 def log_handler(msg,destination):
@@ -136,12 +137,24 @@ def sql_command(table_name, keys, action, **kwargs):
 #ESCREVER DOCSTRING
 def binance_klines_to_postgres_klines(in_dt):
     
+    binance_hour = datetime.fromtimestamp(int((requests.get('https://api.binance.com/api/v1/time').json()['serverTime'])/1000)).hour
+    
+    utc_hour = datetime.utcnow().hour
+    
+    delta_hour = utc_hour - binance_hour
+    
+    delta = delta_hour*3600
+    
     out_dt = []
     
     for i in range (len(in_dt)):
         
-        data = (datetime.fromtimestamp(in_dt[i][0]/1000), in_dt[i][1], in_dt[i][2], in_dt[i][3], 
-                     in_dt[i][4], in_dt[i][5], in_dt[i][7], in_dt[i][8], in_dt[i][9], in_dt[i][10])
+        open_time = datetime.fromtimestamp(int(in_dt[i][0]/1000))
+        
+        if (delta != 0): open_time = datetime.fromtimestamp(int(in_dt[i][0]/1000) + delta)
+                
+        data = (open_time, in_dt[i][1], in_dt[i][2], in_dt[i][3], in_dt[i][4], 
+                in_dt[i][5], in_dt[i][7], in_dt[i][8], in_dt[i][9], in_dt[i][10])
     
         out_dt.append(data)
     
