@@ -3,51 +3,82 @@ import os
 import sys
 import time
 import subprocess
+import shutil
 from modules import general_functions as gf
 
-virtual_env_dir_name = 'venv'
+mode = str(sys.argv[1])
 
-venv_dir = os.path.join(os.path.expanduser(os.getcwd()), virtual_env_dir_name)
+if ( mode == 'production' ):
 
-virtualenv.create_environment(venv_dir)
+    env_file = '/efs/.env'
 
-activate_this = venv_dir + "/bin/activate_this.py"
+else:
 
-exec(open(activate_this).read(), {'__file__': activate_this})
-
-command ='pip install -r requirements.txt'
-
-os.system(command)
-
-env_file = str(os.getcwd()) + '/dev.env'
+    env_file = str(os.getcwd()) + '/dev.env'
 
 os.environ['env_file'] = env_file
 
-gf.export_env_var(env_file)
+if (mode == 'dev0'):
 
-compose_file = str(os.getcwd()) + '/DockerCompose/dev1.yml'
+    pass
 
-command ='docker-compose -f ' + compose_file + ' up -d'
+elif (mode == 'dev1'):
 
-os.system(command)
+    virtual_env_dir_name = 'venv'
 
-time.sleep(60)
+    venv_dir = os.path.join(os.path.expanduser(os.getcwd()), virtual_env_dir_name)
 
-os.environ['DB_HOST'] = 'localhost'
+    virtualenv.create_environment(venv_dir)
 
-controller_path = str(os.getcwd()) + '/controller/manage.py'
+    activate_this = venv_dir + "/bin/activate_this.py"
 
-bdsd_path = str(os.getcwd()) + '/BinanceDataStorageDaemon/main.py'
+    exec(open(activate_this).read(), {'__file__': activate_this})
 
-command = 'python ' + controller_path + ' makemigrations'
-os.system(command)
+    command ='pip install -r requirements.txt'
 
-command = 'python ' + controller_path + ' migrate --noinput'
-os.system(command)
+    os.system(command)
 
-if (os.environ['controller_create_superuser'] == 'true'):
+    export_status = gf.export_env_var(env_file)
 
-    create_super_user_cmd = '''import os
+    if (export_status == 'done'):
+
+        modules_src = str(os.getcwd()) + '/modules/'
+        bdsd_modules_dst = str(os.getcwd()) + '/BinanceDataStorageDaemon/modules/'
+
+        if (os.path.exists(bdsd_modules_dst) == True):
+
+           shutil.rmtree(bdsd_modules_dst)
+
+        shutil.copytree(modules_src, bdsd_modules_dst)
+
+        warning = bdsd_modules_dst + '/__DO_NOT_EDIT_FILES_HERE__'
+        open(warning, 'a').close()
+
+        compose_file = str(os.getcwd()) + '/DockerCompose/dev1.yml'
+
+        command ='docker-compose -f ' + compose_file + ' up -d'
+
+        os.system(command)
+
+        time.sleep(60)
+
+        os.environ['DB_HOST'] = 'localhost'
+
+        controller_path = str(os.getcwd()) + '/controller/manage.py'
+
+        controller_server = str(os.environ['controller_HOST']) + ':' + str(os.environ['controller_PORT'])
+
+        bdsd_path = str(os.getcwd()) + '/BinanceDataStorageDaemon/main.py'
+
+        command = 'python ' + controller_path + ' makemigrations'
+        os.system(command)
+
+        command = 'python ' + controller_path + ' migrate --noinput'
+        os.system(command)
+
+        if (os.environ['controller_create_superuser'] == 'true'):
+
+            create_super_user_cmd = '''import os
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if (not User.objects.filter(username=os.environ.get('controller_SUPERUSER_NAME')).exists()):
@@ -55,17 +86,19 @@ if (not User.objects.filter(username=os.environ.get('controller_SUPERUSER_NAME')
 else:
     pass'''
 
-    subprocess.Popen([sys.executable, controller_path, 'shell', '-c', create_super_user_cmd], stdout=None)
+            subprocess.Popen([sys.executable, controller_path, 'shell', '-c', create_super_user_cmd], stdout=None)
 
-controller_server = str(os.environ['controller_HOST']) + ':' + str(os.environ['controller_PORT'])
+        controller_pid = subprocess.Popen([sys.executable, controller_path, 'runserver', controller_server], stdout=None)
 
-controller_pid = subprocess.Popen([sys.executable, controller_path, 'runserver', controller_server], stdout=None)
+        bdsd_pid = subprocess.Popen([sys.executable, bdsd_path], stdout=None)
 
-bdsd_pid = subprocess.Popen([sys.executable, bdsd_path], stdout=None)
-
-msg = '''
+        msg = '''
 controller_pid..: ''' + str(controller_pid.pid) + '''
 bdsd_pid........: ''' + str(bdsd_pid.pid) + '''
 
 '''
-print(msg)
+        print(msg)
+    
+    else:
+
+        print('Arquivo de variáveis de ambiente não encontrado')
