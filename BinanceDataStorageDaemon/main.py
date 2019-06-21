@@ -5,6 +5,7 @@ import os
 import subprocess
 import time
 from datetime import datetime
+import requests
 from modules import db_functions as dbf, general_functions as gf
 
 """A cada minuto lê a tabela dos pares e, para todos aqueles cujo campo "get_data" estiver marcado como
@@ -22,6 +23,15 @@ default_log = 'logm'
 DataCompleter_path = str(os.getcwd()) + '/BinanceDataStorageDaemon/DataCompleter.py'
 
 round_count = 0
+
+binance_hour = datetime.fromtimestamp(int((requests.get('https://api.binance.com/api/v1/time').json()['serverTime'])/1000)).hour
+
+utc_hour = datetime.utcnow().hour
+
+delta_hour = utc_hour - binance_hour
+
+delta = delta_hour*3600
+
 while True:
     
     msg = '''ENTRADA (ciclo: ''' + str(round_count) + ''')
@@ -74,7 +84,11 @@ AT...: ''' + str(datetime.now()) + '''
                         last_saved_candle = dbf.read_table(table_name, field_key = 'open_time',
                                                             sort_type = 'DESC', limit = '1')#, mute = 'yes')
 
-                        start_time = str(int(datetime.timestamp(last_saved_candle[0]['open_time'])*1000) + 30000)
+                        open_time = datetime.timestamp(last_saved_candle[0]['open_time'])
+                        
+                        if (delta != 0): open_time = datetime.timestamp(last_saved_candle[0]['open_time']) - delta
+
+                        start_time = str(int((open_time*1000) + 30000))
                             
                         pid = subprocess.Popen([sys.executable, DataCompleter_path, str(pair['name']), candle_interval, start_time, str(n_req_full)])
                             
