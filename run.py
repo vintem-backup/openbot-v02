@@ -43,7 +43,7 @@ if ( mode == 'aws' ):
 
 else:
 
-    env_file = str(os.getcwd()) + '/dev.env'
+    env_file = str(os.getcwd()) + '/dev/dev.env'
 
 os.environ['env_file'] = env_file
 
