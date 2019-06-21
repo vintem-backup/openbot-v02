@@ -12,8 +12,8 @@
 ### Por programa:
 
 #### run.py
-* [ ] Adicionar identação para os "modes"
-* [ ] Adicionar cópia da pasta "modules"
+* [x] Adicionar identação para os "modes"
+* [x] Adicionar deleção e cópia da pasta "modules"
 
 #### modules.general_functions.binance_klines_to_postgres_klines
 * [ ] Adicionar conversor para UTC (para o cenário em que o servertime da binance não esteja em UTC)
