@@ -47,36 +47,36 @@ else:
 
 os.environ['env_file'] = env_file
 
-if (mode == 'dev0'):
+export_status = gf.export_env_var(env_file)
 
-    pass
+if (export_status == 'done'):
 
-elif (mode == 'dev1'):
+    if (mode == 'dev0'):
 
-    virtual_env_dir_name = 'venv'
+        pass
 
-    venv_dir = os.path.join(os.path.expanduser(os.getcwd()), virtual_env_dir_name)
+    elif (mode == 'dev1'):
 
-    virtualenv.create_environment(venv_dir)
+        virtual_env_dir_name = 'venv'
 
-    activate_this = venv_dir + "/bin/activate_this.py"
+        venv_dir = os.path.join(os.path.expanduser(os.getcwd()), virtual_env_dir_name)
 
-    exec(open(activate_this).read(), {'__file__': activate_this})
+        virtualenv.create_environment(venv_dir)
 
-    command ='pip install -r requirements.txt'
+        activate_this = venv_dir + "/bin/activate_this.py"
 
-    os.system(command)
+        exec(open(activate_this).read(), {'__file__': activate_this})
 
-    export_status = gf.export_env_var(env_file)
+        command ='pip install -r requirements.txt'
 
-    if (export_status == 'done'):
+        os.system(command)
 
         modules_src = str(os.getcwd()) + '/modules/'
         bdsd_modules_dst = str(os.getcwd()) + '/BinanceDataStorageDaemon/modules/'
 
         if (os.path.exists(bdsd_modules_dst) == True):
 
-           shutil.rmtree(bdsd_modules_dst)
+            shutil.rmtree(bdsd_modules_dst)
 
         shutil.copytree(modules_src, bdsd_modules_dst)
 
@@ -89,7 +89,7 @@ elif (mode == 'dev1'):
 
         os.system(command)
 
-        time.sleep(60)
+        #time.sleep(60)
 
         os.environ['DB_HOST'] = 'localhost'
 
@@ -122,12 +122,15 @@ else:
         bdsd_pid = subprocess.Popen([sys.executable, bdsd_path], stdout=None)
 
         msg = '''
-controller_pid..: ''' + str(controller_pid.pid) + '''
-bdsd_pid........: ''' + str(bdsd_pid.pid) + '''
+    controller_pid..: ''' + str(controller_pid.pid) + '''
+    bdsd_pid........: ''' + str(bdsd_pid.pid) + '''
 
-'''
+    '''
         print(msg)
-    
-    else:
 
-        print('Arquivo de variáveis de ambiente não encontrado')
+    elif (mode == 'staging1'):
+        pass
+
+else:
+
+    print('Arquivo de variáveis de ambiente não encontrado')
