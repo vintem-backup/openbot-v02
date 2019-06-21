@@ -13,13 +13,6 @@ POSTGRES_USER = os.environ.get('POSTGRES_USER')
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 DB_HOST = os.environ.get('DB_HOST')
 
-'''
-DB_HOST='localhost'
-POSTGRES_DB='pg_dev' 
-POSTGRES_PASSWORD='06Fj@%r7KTXm5+eWn2'
-POSTGRES_USER='openbot'
-'''
-
 #Functions
 
 def create_table(table_name,keys,**kwargs):
@@ -100,7 +93,7 @@ Não foi possível conectar ao banco devido ao erro:
                 
                 create_table_job_status = 'done'
 
-            #Erro aocriar tabela
+            #Erro ao criar tabela
             except (Exception, psycopg2.Error) as error: #TRATAR EXCEÇÃO AQUI
                 
                 #Desfaz ação do ponteiro
