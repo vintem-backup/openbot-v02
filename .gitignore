@@ -15,6 +15,7 @@ BinanceDataStorageDaemon/modules
 BinanceTrader/modules
 requirements_all.txt
 atencao_requests_weight.ipynb
+dev/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
