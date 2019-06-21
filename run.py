@@ -6,9 +6,38 @@ import subprocess
 import shutil
 from modules import general_functions as gf
 
+'''Usage: python run.py <op>
+
+<op>
+====
+
+    dev0        -- Run postgreSQL database and pgadmin containers.
+
+    dev1        -- Same as dev0 plus: Export environment variables, install and activate python 
+                    virtual environment, install all project's dependencies, adjust some environment
+                    variables. In the end, run the BinanceDataStorageDaemon/main.py, make django 
+                    migrations, migrate and run the djnago runserver of the controller.
+
+    staging1    -- Build and run postgreSQL database, pgadmin, controler and binance storage data 
+                    containers
+
+    staging2    -- Same as staging1, but instead to build, all containers images are from 
+                    container registry service.
+    
+    delivery1   -- Build the containers` images (no latest) and push them to specific container 
+                    registry service.
+
+    delivery2   -- Build the containers` LATEST images and push them to specific container 
+                    registry service.
+
+    aws         -- Run the production cluster on a AWS, from remote container`s images.
+
+
+'''
+
 mode = str(sys.argv[1])
 
-if ( mode == 'production' ):
+if ( mode == 'aws' ):
 
     env_file = '/efs/.env'
 
