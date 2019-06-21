@@ -13,6 +13,7 @@ downcluster.sh
 .index
 BinanceDataStorageDaemon/modules
 requirements_all.txt
+atencao_requests_weight.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
