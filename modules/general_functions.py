@@ -189,13 +189,22 @@ def export_env_var(path_to_env_file):
     try:
         
         env_file = open(path_to_env_file).readlines()
+        export_status = 'done'
     
     except:
-        
-        print('Arquivo de variáveis de ambiente não encontrado')
+
+        export_status = 'fail'
+                
+    finally:
+
+        if (export_status == 'done'):
+
+            for i in range(1,len(env_file)-1):
+
+                if ('=' in env_file[i]):
+
+                    key=env_file[i].split('=')[0]
+                    value=env_file[i].split('=')[1].split()[0]
+                    os.environ[key] = value
     
-    for i in range(1,len(env_file)-1):
-        if ('=' in env_file[i]):
-            key=env_file[i].split('=')[0]
-            value=env_file[i].split('=')[1].split()[0]
-            os.environ[key] = value
+    return export_status
