@@ -12,6 +12,7 @@ secrets.env
 downcluster.sh
 .index
 BinanceDataStorageDaemon/modules
+BinanceTrader/modules
 requirements_all.txt
 atencao_requests_weight.ipynb
 
