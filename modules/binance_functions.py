@@ -4,6 +4,7 @@
 import requests
 import json
 import time
+from datetime import datetime
 from . import general_functions as gf
 
 #ESCREVER DOCSTRING
