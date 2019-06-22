@@ -1,7 +1,3 @@
-#Other functions
-
-#Import
-
 import sys
 import os
 from datetime import datetime
@@ -137,11 +133,13 @@ def sql_command(table_name, keys, action, **kwargs):
 #ESCREVER DOCSTRING
 def binance_klines_to_postgres_klines(in_dt):
     
-    binance_hour = datetime.fromtimestamp(int((requests.get('https://api.binance.com/api/v1/time').json()['serverTime'])/1000)).hour
+    binance_time = datetime.fromtimestamp(int((requests.get('https://api.binance.com/api/v1/time').json()['serverTime'])/1000))
     
-    utc_hour = datetime.utcnow().hour
+    utc_time = datetime.utcnow()
     
-    delta_hour = utc_hour - binance_hour
+    delta_time = utc_time - binance_time
+
+    delta_hour = round(delta_time.total_seconds()/3600)
     
     delta = delta_hour*3600
     
@@ -160,42 +158,6 @@ def binance_klines_to_postgres_klines(in_dt):
     
     return out_dt
 
-
-def request_calculator():
-    
-    n_pairs_on = 0; n_pairs_full = 0; n_req_build = 1; n_req_full = 1
-
-    pairs = dbf.read_table('binance_pairs',mute = 'yes')
-
-    for pair in pairs:
-
-        if (pair['get_data'] == 'ON'):
-
-            n_pairs_on+=1
-
-            if (pair['status'] == 'full'):
-
-                n_pairs_full+=1
-
-        if (n_pairs_on > 0):
-
-            if (n_pairs_full > 0):
-
-                if (n_pairs_full == n_pairs_on): #Não há pares building ou absent
-
-                    n_req_full = int(1150/(n_pairs_full))
-                
-                else:
-
-                    n_req_full = int(150/(n_pairs_full))
-
-                    n_req_build = int(1000/(n_pairs_on - n_pairs_full))
-            
-            else:
-
-                n_req_build = int(1150/(n_pairs_on))
-
-    return n_pairs_on, n_req_build, n_req_full
 
 def export_env_var(path_to_env_file):
     
