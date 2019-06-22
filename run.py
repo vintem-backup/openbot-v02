@@ -51,45 +51,46 @@ export_status = gf.export_env_var(env_file)
 
 if (export_status == 'done'):
 
+    virtual_env_dir_name = 'venv'
+
+    venv_dir = os.path.join(os.path.expanduser(os.getcwd()), virtual_env_dir_name)
+
+    virtualenv.create_environment(venv_dir)
+
+    activate_this = venv_dir + "/bin/activate_this.py"
+
+    exec(open(activate_this).read(), {'__file__': activate_this})
+
+    modules_src = str(os.getcwd()) + '/modules/'
+
+    bdsd_modules_dst = str(os.getcwd()) + '/BinanceDataStorageDaemon/modules/'
+
+    if (os.path.exists(bdsd_modules_dst) == True):
+
+        shutil.rmtree(bdsd_modules_dst)
+
+    shutil.copytree(modules_src, bdsd_modules_dst)
+
+    warning = bdsd_modules_dst + '/__DO_NOT_EDIT_FILES_HERE__'
+    open(warning, 'a').close()
+
     if (mode == 'dev0'):
 
         pass
 
     elif (mode == 'dev1'):
 
-        virtual_env_dir_name = 'venv'
-
-        venv_dir = os.path.join(os.path.expanduser(os.getcwd()), virtual_env_dir_name)
-
-        virtualenv.create_environment(venv_dir)
-
-        activate_this = venv_dir + "/bin/activate_this.py"
-
-        exec(open(activate_this).read(), {'__file__': activate_this})
+        os.environ['run_mode'] = 'dev'
 
         command ='pip install -r requirements.txt'
-
         os.system(command)
-
-        modules_src = str(os.getcwd()) + '/modules/'
-        bdsd_modules_dst = str(os.getcwd()) + '/BinanceDataStorageDaemon/modules/'
-
-        if (os.path.exists(bdsd_modules_dst) == True):
-
-            shutil.rmtree(bdsd_modules_dst)
-
-        shutil.copytree(modules_src, bdsd_modules_dst)
-
-        warning = bdsd_modules_dst + '/__DO_NOT_EDIT_FILES_HERE__'
-        open(warning, 'a').close()
 
         compose_file = str(os.getcwd()) + '/DockerCompose/dev1.yml'
 
         command ='docker-compose -f ' + compose_file + ' up -d'
-
         os.system(command)
 
-        #time.sleep(60)
+        time.sleep(60)
 
         os.environ['DB_HOST'] = 'localhost'
 
@@ -129,7 +130,23 @@ else:
         print(msg)
 
     elif (mode == 'staging1'):
-        pass
+
+        command ='pip install docker-compose'
+        os.system(command)
+
+        compose_file = 'DockerCompose/staging1.yml'
+        
+        command ='docker-compose -f ' + compose_file + ' down'
+        os.system(command)
+
+        #command ='docker-compose -f ' + compose_file + ' build --no-cache controller'
+        #os.system(command)
+
+        #command ='docker-compose -f ' + compose_file + ' build --no-cache binancedatastoragedaemon'
+        #os.system(command)
+
+        command ='docker-compose -f ' + compose_file + ' up -d'
+        os.system(command)
 
 else:
 
