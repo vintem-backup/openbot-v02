@@ -12,15 +12,15 @@ echo "DB started"
 python manage.py makemigrations
 python manage.py migrate --noinput
 
-if [ $create_superuser = 'true' ]; then
+if [ $controller_create_superuser = 'true' ]; then
 
 python manage.py shell -c "import os
 from django.contrib.auth import get_user_model
 User = get_user_model()
-if (not User.objects.filter(username=os.environ.get('BDAPI_SUPERUSER_NAME')).exists()):
-    User.objects.create_superuser(os.environ.get('BDAPI_SUPERUSER_NAME'), os.environ.get('BDAPI_SUPERUSER_MAIL'), os.environ.get('BDAPI_SUPERUSER_PASS'))
+if (not User.objects.filter(username=os.environ.get('controller_SUPERUSER_NAME')).exists()):
+    User.objects.create_superuser(os.environ.get('controller_SUPERUSER_NAME'), os.environ.get('controller_SUPERUSER_MAIL'), os.environ.get('controller_SUPERUSER_PASS'))
 else:
     pass"
 fi
 
-exec python manage.py runserver $BDAPI_HOST:$BDAPI_PORT
+exec python manage.py runserver $controller_HOST:8080
