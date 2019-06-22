@@ -1,5 +1,3 @@
-#Main
-
 import sys
 import os
 import subprocess
@@ -20,15 +18,19 @@ keys = {'open_time': 'timestamp', 'open': 'numeric', 'high': 'numeric', 'low': '
 
 default_log = 'logm'
 
-DataCompleter_path = str(os.getcwd()) + '/BinanceDataStorageDaemon/DataCompleter.py'
+DataCompleter = 'DataCompleter.py'
 
+if (os.environ['run_mode'] == 'dev'): DataCompleter = str(os.getcwd()) + '/BinanceDataStorageDaemon/DataCompleter.py'
+    
 round_count = 0
 
-binance_hour = datetime.fromtimestamp(int((requests.get('https://api.binance.com/api/v1/time').json()['serverTime'])/1000)).hour
+binance_time = datetime.fromtimestamp(int((requests.get('https://api.binance.com/api/v1/time').json()['serverTime'])/1000))
 
-utc_hour = datetime.utcnow().hour
+utc_time = datetime.utcnow()
 
-delta_hour = utc_hour - binance_hour
+delta_time = utc_time - binance_time
+
+delta_hour = round(delta_time.total_seconds()/3600)
 
 delta = delta_hour*3600
 
@@ -47,8 +49,11 @@ AT...: ''' + str(datetime.now()) + '''
     pairs = dbf.read_table('binance_pairs')#,mute = 'yes')
     
     if (len(pairs) > 0): #Enconta a tabela dos pares
-
-        n_pairs_on, n_req_build, n_req_full = gf.request_calculator()
+        
+        n_pairs_on = 0
+        for pair in pairs:
+            
+            if (pair['get_data'] == 'ON'): n_pairs_on+=1
         
         if(n_pairs_on > 0): 
             
@@ -66,14 +71,12 @@ AT...: ''' + str(datetime.now()) + '''
                         
                         create_table_job_satus = dbf.create_table(table_name,keys,pk='open_time')
 
-                                                
-                        
-                        pid = subprocess.Popen([sys.executable, DataCompleter_path, str(pair['name']), candle_interval, start_time, str(n_req_build)])
+                        pid = subprocess.Popen([sys.executable, DataCompleter, str(pair['name']), candle_interval, start_time])
 
                         update_table_job_status = dbf.update_table('binance_pairs', 'name', str(pair['name']), 'last_change_by_pid', int(pid.pid))
 
                         msg = '''
-{ciclo: ''' + str(round_count) + ''', par: ''' + str(pair['name']) + ''', PID: ''' + str(pid.pid) + ''', max_requests: ''' + str(n_req_build) + '''} 
+{ciclo: ''' + str(round_count) + ''', par: ''' + str(pair['name']) + ''', PID: ''' + str(pid.pid) + '''} 
 '''
         
                         gf.log_handler(msg,default_log)
@@ -90,12 +93,12 @@ AT...: ''' + str(datetime.now()) + '''
 
                         start_time = str(int((open_time*1000) + 30000))
                             
-                        pid = subprocess.Popen([sys.executable, DataCompleter_path, str(pair['name']), candle_interval, start_time, str(n_req_full)])
+                        pid = subprocess.Popen([sys.executable, DataCompleter, str(pair['name']), candle_interval, start_time])
                             
                         update_table_job_status = dbf.update_table('binance_pairs', 'name', str(pair['name']), 'last_change_by_pid', int(pid.pid))
                           
                         msg = '''
-{ciclo: ''' + str(round_count) + ''', par: ''' + str(pair['name']) + ''', PID: ''' + str(pid.pid) + ''', max_requests: ''' + str(n_req_full) + '''} 
+{ciclo: ''' + str(round_count) + ''', par: ''' + str(pair['name']) + ''', PID: ''' + str(pid.pid) + '''} 
 '''
         
                         gf.log_handler(msg,default_log)
@@ -104,7 +107,7 @@ AT...: ''' + str(datetime.now()) + '''
         #AQUI SERÁ TRATADO O CENÁRIO EM QUE O STATUS ESTÁ "BUILDING", PORÉM O PID CAIU
 
                         msg = '''
-{ciclo: ''' + str(round_count) + ''', par: ''' + str(pair['name']) + ''', PID: ''' + str(pair['last_change_by_pid']) + ''', max_requests: ''' + str(n_req_build) + '''} 
+{ciclo: ''' + str(round_count) + ''', par: ''' + str(pair['name']) + ''', PID: ''' + str(pair['last_change_by_pid']) + '''} 
 '''
         
                         gf.log_handler(msg,default_log)
