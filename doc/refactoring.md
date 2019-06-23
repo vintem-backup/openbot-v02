@@ -9,6 +9,8 @@
 * [x] Renomear funções
 * [ ] Mudar os horários dos logs de utc para local
 * [ ] Iniciar construção do container BinanceTrader
+  * [ ] Concepção do algoritmo de backtest
+  * [ ] Concepção dos modelos de dados
 
 ### Por programa:
 
@@ -27,6 +29,6 @@
         parar por 1 min.
 
 #### modules.general_functions.log_handler
-* [ ] Melhorar namespacing buscando respectiva pasta de logs, criando-a se náo existir
+* [ ] Melhorar namespacing buscando respectiva pasta de logs, criando-a se nãoo existir
 
 ## Julho 2019
