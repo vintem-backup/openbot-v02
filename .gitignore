@@ -15,7 +15,8 @@ BinanceDataStorageDaemon/modules
 BinanceTrader/modules
 requirements_all.txt
 atencao_requests_weight.ipynb
-dev/*
+*/dev
+dev/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -134,3 +135,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 BinanceDataStorageDaemon/Untitled.ipynb
+BinanceTrader/modules/binance_functions.py
+BinanceTrader/modules/db_functions.py
