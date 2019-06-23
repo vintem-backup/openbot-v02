@@ -1,0 +1,67 @@
+{
+    "open_time":"2019-06-23 13:56:00",
+
+    "trades_untill_now": "765",
+    
+    "gain_loss_ratio": "0.78",
+
+    "total_usd_equivalent":"1768.67",
+
+    "BTCUSDT":{
+
+        "position": "BTC",
+
+        "trading_strategy" : "alpha_01",
+        
+        "details": {
+            "amount": "0.0034",
+            "usd_equivalent": "345,67",
+            "buy_price": "10481.67"
+        },
+
+        "trade":{
+            "side": "[<buy>,<sell>]",
+            "trigger": "[<stop>,<indicators>]",
+            "price": "0.00456",
+            "usd_amount": "376.76",
+            "usd_fees": "0.00456",
+            "balance": "[<+2.076>,<-1.7>]"
+        },
+
+        "stop_criteria": {
+            
+            "target_price":"[<34.57>, <Null>]",
+            
+            "first_trigger":{
+                
+                "pecent":"5",
+                
+                "threshold":{
+                    "rounds":"5",
+                    "trigger_if":"3"
+                }
+            },
+
+            "second_trigger":{
+                
+                "pecent":"1",
+                
+                "threshold":{
+                    "rounds":"30",
+                    "trigger_if":"10"
+                }
+            },
+
+            "correct_target_if":{
+                
+                "pecent":"1",
+                
+                "threshold":{
+                    "rounds":"5",
+                    "correct_if":"3"
+                }
+            }
+        }
+    }   
+
+}
