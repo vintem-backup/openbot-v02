@@ -142,8 +142,8 @@ else:
         #command ='docker-compose -f ' + compose_file + ' build --no-cache controller'
         #os.system(command)
 
-        #command ='docker-compose -f ' + compose_file + ' build --no-cache binancedatastoragedaemon'
-        #os.system(command)
+        command ='docker-compose -f ' + compose_file + ' build --no-cache binancedatastoragedaemon'
+        os.system(command)
 
         command ='docker-compose -f ' + compose_file + ' up -d'
         os.system(command)
