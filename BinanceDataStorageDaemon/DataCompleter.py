@@ -2,6 +2,7 @@ import os
 import sys
 import time
 from datetime import datetime
+import requests
 from modules import binance_functions as bf, db_functions as dbf, general_functions as gf
 
 #FAZER A DOCSTRING
