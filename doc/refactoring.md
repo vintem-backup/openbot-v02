@@ -1,16 +1,35 @@
 # Plano de refatoração
 
-## Junho 2019
-
 ### Panorama geral:
   
 * [x] Finalizar container que adquire os dados (1m) da binance e os armazena no DB (BinanceStorageDaemon)
 * [x] Renomear tabelas
 * [x] Renomear funções
 * [x] Mudar os horários dos logs de utc para local
-* [ ] Iniciar construção do container BinanceTrader
-  * [ ] Concepção do algoritmo de backtest
-  * [ ] Concepção dos modelos de dados
+* [x] Iniciar construção do container BinanceTrader
+  * [x] Concepção do algoritmo de backtest
+  * [x] Concepção dos modelos de dados
+* [ ]Container BinanceTrader
+  * [ ] Main
+    * [ ] Algoritmo
+    * [ ] Código
+  * [x] Função indicador
+  * [x] Função estratégia
+  * [ ] Parse de candles
+  * [ ] Logger (?)
+  * [ ] Disparador de ordens
+  * [ ] Calculadora de montantes
+
+* [ ] Colocar TODOS os nomes de tabelas e afins, que figuram nos códigos, como variáveis de ambiente
+* [ ] Adicionar os novos indicadores:
+  * [ ] Novo indicador 1
+  * [ ] Novo idicador 2
+* [ ] Criar os views e models no controller para ajuste de parâmetros e afins
+* [ ] Buscar uma solução para visualização dos dados
+  * [ ] Plotly
+  * [ ] Matplotlib
+  * [ ] Tradingview
+* [ ] Revisar as docstrings, fazer as que não existirem
 
 ### Por programa:
 
@@ -30,18 +49,3 @@
 
 #### modules.general_functions.log_handler
 * [ ] Melhorar namespacing buscando respectiva pasta de logs, criando-a se não existir
-
-## Julho/agosto 2019
-
-### Panorama geral:
-
-* [ ] Colocar TODOS os nomes de tabelas e afins, que figuram nos códigos, como variáveis de ambiente
-* [ ] Adicionar os novos indicadores:
-  * [ ] Novo indicador 1
-  * [ ] Novo idicador 2
-* [ ] Criar os views e models no controller para ajuste de parâmetros e afins
-* [ ] Buscar uma solução para visualização dos dados
-  * [ ] Plotly
-  * [ ] Matplotlib
-  * [ ] Tradingview
-* [ ] Revisar as docstrings, fazer as que não existirem
