@@ -1,0 +1,46 @@
+{
+    "open_time": "2019-06-23 13:56:00",
+
+    "trades_untill_now": "765",
+    
+    "gain_trades": "0.78",
+
+    "profit": "135,87",
+
+    "total_usd_equivalent":"1768.67",
+
+    "BTCUSDT":{
+
+        "courrent_price": "10481.67",
+
+        "indicators_value": "[<value_of_first_indicator, <value_of_second_indicator>, ...]",
+
+        "position": {
+            
+            "side": "BTC",
+            
+            "details": {
+
+                "size": "457,89",
+
+                "balance": "[<+2.076>,<-1.7>]",
+
+                "target_price": "10481.67"
+
+            }
+        }
+    },
+    
+    "ETHUSDT":{
+
+        "indicators_value": "[<value_of_first_indicator, <value_of_second_indicator>, ...]",
+
+        "position": {
+            
+            "side": "USDT",
+            
+            "details": "no"
+        }
+    } 
+
+}
