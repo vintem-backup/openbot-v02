@@ -1,0 +1,15 @@
+{
+    "time":"<open_time_of_trade_ocourrence>",
+
+    "BTCUSDT":{
+
+            "side": "[<buy>,<sell>]",
+            "trigger": "[<stop>,<strategy>]",
+            "price": "0.00456",
+            "amount": "0.0034",
+            "usd_amount": "376.76",
+            "usd_fees": "0.00456"
+    },
+
+    "ETHUSDT": "no"
+}

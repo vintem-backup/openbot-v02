@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  
+  es_db:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
+    ports:
+      - 9200:9200
+    container_name: "${operation_name}_es_db"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks: 
+      glue:
+        ipv4_address: 172.19.0.2
+  
+  get_data:
+    depends_on:
+      - es_db
+    env_file:
+      - ./$env_file
+    build:
+      context: .
+      dockerfile: ./get_data/Dockerfile
+    container_name: "${operation_name}_get_data"
+    stdin_open: true #
+    tty: true #
+    networks: 
+      glue:
+        ipv4_address: 172.19.0.3
+
+  worker:
+    depends_on:
+      - es_db
+      - get_data
+    env_file:
+      - ./$env_file
+    build:
+      context: .
+      dockerfile: ./worker/Dockerfile
+    container_name: "${operation_name}_worker"
+    networks: 
+      glue:
+        ipv4_address: 172.19.0.4
+
+volumes:
+  esdata:
+    driver: local
+
+networks: 
+  glue:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.19.0.0/16

@@ -1,0 +1,49 @@
+{"setup_1": {
+
+        "work_pairs": ["BTCUSDT", "ETHUSDT", "LTCUSDT"],
+
+        "candle_interval": "2h",
+
+        "price_source": "ohlc4",
+
+        "indicators_set": {
+
+            "short_ma": "3",
+
+            "long_ma":"100"
+        },
+
+        "stop_criteria": {
+
+            "first_trigger":{
+
+                "percent":"5",
+
+                "threshold":{
+                    "rounds":"5",
+                    "trigger_if":"3"
+                }
+            },
+
+            "second_trigger":{
+                
+                "percent":"1",
+                
+                "threshold":{
+                    "rounds":"30",
+                    "trigger_if":"10"
+                }
+            }
+        },
+
+        "update_target_if":{
+            
+            "percent":"1",
+            
+            "threshold":{
+                "rounds":"5",
+                "update_if":"3"
+            }
+        }   
+    }
+}

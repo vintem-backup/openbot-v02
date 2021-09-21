@@ -6,6 +6,7 @@
 #dev stuff
 DEPRECATED*
 dev.env
+<<<<<<< HEAD
 BKP*
 jupyterlog
 secrets.env
@@ -132,3 +133,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+=======
+*checkpoint.ipynb
+memo.txt
+venv
+.vscode
+BACKUP*
+/dev/src/elasticsearch/data
+
+>>>>>>> gitlab/dev_marcus
