@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import virtualenv
 import os
 import sys
@@ -5,6 +6,8 @@ import time
 import subprocess
 import shutil
 from modules import general_functions as gf
+=======
+>>>>>>> gitlab/dev_nl
 
 '''Usage: python run.py <op>
 
@@ -35,6 +38,24 @@ from modules import general_functions as gf
 
 '''
 
+<<<<<<< HEAD
+=======
+import os
+import sys
+import time
+import subprocess
+import shutil
+from modules.general_functions import export_env_var as export
+
+command = 'pip install --upgrade pip'
+os.system(command)
+
+command = 'pip install virtualenv'
+os.system(command)
+
+import virtualenv
+
+>>>>>>> gitlab/dev_nl
 mode = str(sys.argv[1])
 
 if ( mode == 'aws' ):
@@ -47,6 +68,7 @@ else:
 
 os.environ['env_file'] = env_file
 
+<<<<<<< HEAD
 export_status = gf.export_env_var(env_file)
 
 if (export_status == 'done'):
@@ -54,6 +76,17 @@ if (export_status == 'done'):
     virtual_env_dir_name = 'venv'
 
     venv_dir = os.path.join(os.path.expanduser(os.getcwd()), virtual_env_dir_name)
+=======
+export_status = export(env_file)
+
+if (export_status == 'done'):
+
+    venv_dir = os.path.join(os.path.expanduser(os.getcwd()), 'venv')
+
+    if (os.path.exists(venv_dir) == True):
+
+        shutil.rmtree(venv_dir)
+>>>>>>> gitlab/dev_nl
 
     virtualenv.create_environment(venv_dir)
 
@@ -63,6 +96,19 @@ if (export_status == 'done'):
 
     modules_src = str(os.getcwd()) + '/modules/'
 
+<<<<<<< HEAD
+=======
+    command = 'pip install --upgrade pip'
+    os.system(command)
+
+    command = 'pip install -r requirements.txt'
+    os.system(command)
+
+    command = 'ipython kernel install --user --name=venv'
+    os.system(command)
+
+   #bdsd = BinanceDataStorageDaemon
+>>>>>>> gitlab/dev_nl
     bdsd_modules_dst = str(os.getcwd()) + '/BinanceDataStorageDaemon/modules/'
 
     if (os.path.exists(bdsd_modules_dst) == True):
@@ -73,11 +119,16 @@ if (export_status == 'done'):
 
     warning = bdsd_modules_dst + '/__DO_NOT_EDIT_FILES_HERE__'
     open(warning, 'a').close()
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> gitlab/dev_nl
     if (mode == ('dev0' or 'dev1')):
 
         os.environ['run_mode'] = 'dev'
 
+<<<<<<< HEAD
         command ='pip install -r requirements.txt'
         os.system(command)
 
@@ -88,20 +139,42 @@ if (export_status == 'done'):
 
         command = 'jupyter notebook > dev/jupyterlog 2>&1 &'
 
+=======
+        os.environ['DB_HOST'] = 'localhost'
+
+        command = 'jupyter notebook > dev/jupyterlog 2>&1 &'
+        os.system(command)
+
+        compose_file = str(os.getcwd()) + '/DockerCompose/dev.yml'
+
+        command ='docker-compose -f ' + compose_file + ' up'# -d'
+>>>>>>> gitlab/dev_nl
         os.system(command)
 
         if (mode == 'dev1'):
 
             time.sleep(60)
 
+<<<<<<< HEAD
             os.environ['DB_HOST'] = 'localhost'
 
+=======
+>>>>>>> gitlab/dev_nl
             controller_path = str(os.getcwd()) + '/controller/manage.py'
 
             controller_server = str(os.environ['controller_HOST']) + ':' + str(os.environ['controller_PORT'])
 
             bdsd_path = str(os.getcwd()) + '/BinanceDataStorageDaemon/main.py'
 
+<<<<<<< HEAD
+=======
+            command = 'python ' + controller_path + ' makemigrations PairsManage'
+            os.system(command)
+
+            command = 'python ' + controller_path + ' migrate PairsManage --noinput'
+            os.system(command)            
+                        
+>>>>>>> gitlab/dev_nl
             command = 'python ' + controller_path + ' makemigrations'
             os.system(command)
 
@@ -133,9 +206,12 @@ else:
 
     elif (mode == 'staging1'):
 
+<<<<<<< HEAD
         command ='pip install docker-compose'
         os.system(command)
 
+=======
+>>>>>>> gitlab/dev_nl
         compose_file = 'DockerCompose/staging1.yml'
         
         command ='docker-compose -f ' + compose_file + ' down'
@@ -147,9 +223,17 @@ else:
         #command ='docker-compose -f ' + compose_file + ' build --no-cache binancedatastoragedaemon'
         #os.system(command)
 
+<<<<<<< HEAD
         command ='docker-compose -f ' + compose_file + ' up -d'
+=======
+        command ='docker-compose -f ' + compose_file + ' up'# -d'
+>>>>>>> gitlab/dev_nl
         os.system(command)
 
 else:
 
+<<<<<<< HEAD
     print('Arquivo de variáveis de ambiente não encontrado')
+=======
+    print('Arquivo de variáveis de ambiente não encontrado')
+>>>>>>> gitlab/dev_nl

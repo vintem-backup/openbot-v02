@@ -26,7 +26,13 @@ round_count = 0
 
 binance_time = datetime.fromtimestamp(int((requests.get('https://api.binance.com/api/v1/time').json()['serverTime'])/1000))
 
+<<<<<<< HEAD
 utc_time = datetime.utcnow()
+=======
+#utc_time = datetime.utcnow()
+
+utc_time = gf.utc_time_func()
+>>>>>>> gitlab/dev_nl
 
 delta_time = utc_time - binance_time
 

@@ -21,6 +21,10 @@
   * [ ] Calculadora de montantes
 
 * [ ] Colocar TODOS os nomes de tabelas e afins, que figuram nos códigos, como variáveis de ambiente
+<<<<<<< HEAD
+=======
+        (Realmente necessário?)
+>>>>>>> gitlab/dev_nl
 * [ ] Adicionar os novos indicadores:
   * [ ] Novo indicador 1
   * [ ] Novo idicador 2
@@ -48,4 +52,22 @@
         parar por 1 min.
 
 #### modules.general_functions.log_handler
+<<<<<<< HEAD
 * [ ] Melhorar namespacing buscando respectiva pasta de logs, criando-a se não existir
+=======
+* [ ] Melhorar namespacing buscando respectiva pasta de logs, criando-a se não existir
+
+### Vulnerabilidades conhecidas
+
+#### Conversão do tempo de leitura e salvamento para UTC
+* [x] Criar função com chamadaa uma API publica
+  * [x] Adicionar estrutura "try except" à função
+* [x] Adicionar função ao módulo "general_functions"
+* [ ] Carregar função para os respectivos programas:
+  * [ ] main.py
+  * [ ] binance_klines_to_postgres_klines
+* [ ] Proceder os testes
+
+#### Import das general functions no run.py
+  
+>>>>>>> gitlab/dev_nl

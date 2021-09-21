@@ -40,7 +40,10 @@ Atualização do status para building falhou!
 
     gf.log_handler(msg,default_logw)
 
+<<<<<<< HEAD
 #total_num_requests = 0
+=======
+>>>>>>> gitlab/dev_nl
 round_counter = 1
 
 while True:

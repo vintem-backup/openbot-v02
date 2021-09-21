@@ -4,7 +4,11 @@ class BinancePair (models.Model):
 
     class Meta:
 
+<<<<<<< HEAD
         db_table = 'binance_pairs'
+=======
+        db_table = '"binance_pairs"'
+>>>>>>> gitlab/dev_nl
     
     STATUS_CHOICES=(
         ('ON','on'),

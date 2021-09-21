@@ -143,6 +143,9 @@ venv
 .vscode
 BACKUP*
 /dev/src/elasticsearch/data
+dev/
+*.csv
+BinanceDataStorageDaemon/modules/*
 
 >>>>>>> gitlab/dev_marcus
 =======

@@ -1,0 +1,10 @@
+1 - MODO DEV -- Psycopg2 não instala se as bibliotecas do postgres não estiverem instaladas no OS
+
+2 - Problema no import das general functions se o módulo python do telegram não estiver instalado nativamente
+(Talvez resolver com "from general_functions import...") (parece estar resolvido)
+
+3 - UTC do python não retorna UTC "real", mas sim calculado a partir do timezone local
+
+4 - Parece ser preciso apagar o diretório venv antes de criá-lo (feito!)
+
+5 - Inserir try except em caso de falta de conexão

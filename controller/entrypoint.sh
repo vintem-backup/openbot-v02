@@ -9,6 +9,13 @@ done
 echo "DB started"
 
 #python manage.py collectstatic --no-input
+<<<<<<< HEAD
+=======
+
+python manage.py makemigrations PairsManage
+python manage.py migrate PairsManage --noinput
+
+>>>>>>> gitlab/dev_nl
 python manage.py makemigrations
 python manage.py migrate --noinput
 

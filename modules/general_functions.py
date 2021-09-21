@@ -2,10 +2,41 @@ import sys
 import os
 from datetime import datetime
 import requests
+<<<<<<< HEAD
 from . import notification, db_functions as dbf
 
 def log_handler(msg,destination):
     
+=======
+
+def utc_time_func():
+
+    try:
+    
+        url = 'http://worldclockapi.com/api/json/utc/now'
+
+        time_utc_now = requests.get(url).json
+
+        year = int(time_utc_now()['currentDateTime'].split('T')[0].split('-')[0])
+        month = int(time_utc_now()['currentDateTime'].split('T')[0].split('-')[1])
+        day = int(time_utc_now()['currentDateTime'].split('T')[0].split('-')[2])
+
+        hour = int(time_utc_now()['currentDateTime'].split('T')[1].split(':')[0])
+        minute = int(time_utc_now()['currentDateTime'].split('T')[1].split(':')[1].split('Z')[0])
+    
+        utc_now = datetime(year, month, day, hour, minute)
+    
+    except (Exception) as error: #Tratar exceção (provavelmente enviar para telegram)
+        
+        utc_now = datetime.utcnow()
+
+    return utc_now
+
+def log_handler(msg,destination):
+    
+    from . import notification
+
+>>>>>>> gitlab/dev_nl
     """Envia uma mensagem de log para o destino escolhido pelo usuário.
     
     
@@ -135,7 +166,13 @@ def binance_klines_to_postgres_klines(in_dt):
     
     binance_time = datetime.fromtimestamp(int((requests.get('https://api.binance.com/api/v1/time').json()['serverTime'])/1000))
     
+<<<<<<< HEAD
     utc_time = datetime.utcnow()
+=======
+    #utc_time = datetime.utcnow()
+
+    utc_time = utc_time_func()
+>>>>>>> gitlab/dev_nl
     
     delta_time = utc_time - binance_time
 
