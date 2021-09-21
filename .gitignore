@@ -16,6 +16,8 @@ BinanceDataStorageDaemon/modules
 BinanceTrader/modules
 requirements_all.txt
 atencao_requests_weight.ipynb
+*/dev
+dev/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -133,6 +135,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+<<<<<<< HEAD
 =======
 *checkpoint.ipynb
 memo.txt
@@ -142,3 +145,44 @@ BACKUP*
 /dev/src/elasticsearch/data
 
 >>>>>>> gitlab/dev_marcus
+=======
+BinanceDataStorageDaemon/Untitled.ipynb
+BinanceTrader/modules/binance_functions.py
+BinanceTrader/modules/db_functions.py
+controller/templates/admin/change_list_results.html
+controller/templates/admin/404.html
+controller/templates/admin/500.html
+controller/templates/admin/actions.html
+controller/templates/admin/app_index.html
+controller/templates/admin/base.html
+controller/templates/admin/change_form.html
+controller/templates/admin/change_form_object_tools.html
+controller/templates/admin/change_list.html
+controller/templates/admin/change_list_object_tools.html
+controller/templates/admin/date_hierarchy.html
+controller/templates/admin/delete_confirmation.html
+controller/templates/admin/delete_selected_confirmation.html
+controller/templates/admin/filter.html
+controller/templates/admin/index.html
+controller/templates/admin/invalid_setup.html
+controller/templates/admin/login.html
+controller/templates/admin/object_history.html
+controller/templates/admin/pagination.html
+controller/templates/admin/popup_response.html
+controller/templates/admin/prepopulated_fields_js.html
+controller/templates/admin/search_form.html
+controller/templates/admin/submit_line.html
+controller/templates/admin/auth/user/add_form.html
+controller/templates/admin/auth/user/change_password.html
+controller/templates/admin/edit_inline/stacked.html
+controller/templates/admin/edit_inline/tabular.html
+controller/templates/admin/includes/fieldset.html
+controller/templates/admin/includes/object_delete_summary.html
+controller/templates/admin/widgets/clearable_file_input.html
+controller/templates/admin/widgets/foreign_key_raw_id.html
+controller/templates/admin/widgets/many_to_many_raw_id.html
+controller/templates/admin/widgets/radio.html
+controller/templates/admin/widgets/related_widget_wrapper.html
+controller/templates/admin/widgets/split_datetime.html
+controller/templates/admin/widgets/url.html
+>>>>>>> gitlab/django-docker

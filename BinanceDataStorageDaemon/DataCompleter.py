@@ -1,20 +1,17 @@
-#data_completer.py
-
 import os
 import sys
 import time
 from datetime import datetime
+import requests
 from modules import binance_functions as bf, db_functions as dbf, general_functions as gf
 
 #FAZER A DOCSTRING
 
-interval = str(sys.argv[2])
-
 pair = str(sys.argv[1])
 
-start_time = str(sys.argv[3])
+interval = str(sys.argv[2])
 
-max_requests = int(sys.argv[4])
+start_time = str(sys.argv[3])
 
 table_name = 'binance_klines_' + pair + '_' + interval
 
@@ -43,7 +40,7 @@ Atualização do status para building falhou!
 
     gf.log_handler(msg,default_logw)
 
-total_num_requests = 0
+#total_num_requests = 0
 round_counter = 1
 
 while True:
@@ -59,11 +56,8 @@ PAR..: ''' + pair + '''
     gf.log_handler(msg,default_logm)
 
     klines = []
-    num_requests_each_round = 0
     
-    klines, num_requests_each_round = bf.binance_klines_request_handler(pair, interval, start_time, max_attempts)
-    
-    total_num_requests = total_num_requests + num_requests_each_round
+    klines = bf.binance_klines_request_handler(pair, interval, start_time, max_attempts)
     
     if (len(klines) > 0):
         
@@ -94,8 +88,6 @@ PAR..: ''' + pair + '''
         klines = gf.binance_klines_to_postgres_klines(klines) #Parse das klines
         
         save_in_table_job_status = dbf.save_in_table(table_name, keys, klines)
-
-        #print('deveria imprmir aqui')
 
         msg = '''
 Leva de ''' + str(len(klines)) + ''' klines salvas no banco
@@ -154,15 +146,18 @@ SAÍDA (ciclo: ''' + str(round_counter) + ''').
         
     gf.log_handler(msg,default_logm)
     
-    if(total_num_requests > int(max_requests)):
+    response_ping = requests.get('https://api.binance.com/api/v1/ping')
+
+    total_req_courrent_minute = int(response_ping.headers['X-MBX-USED-WEIGHT'])
+    
+    if(total_req_courrent_minute >= 1100):
 
         msg = '''
 Número máximo de requests atingido, dormindo 1 min
 '''
 
         gf.log_handler(msg,default_logm) 
-       
-        total_num_requests = 0 #zera o contador de requests
+
         time.sleep(60)
 
     round_counter+=1
@@ -190,5 +185,5 @@ PAR..: ''' + pair + '''
 
 FIM DATACOMPLETER
 '''
-        
+   
 gf.log_handler(msg,default_logm)

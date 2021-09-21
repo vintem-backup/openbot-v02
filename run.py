@@ -3,51 +3,114 @@ import os
 import sys
 import time
 import subprocess
+import shutil
 from modules import general_functions as gf
 
-virtual_env_dir_name = 'venv'
+'''Usage: python run.py <op>
 
-venv_dir = os.path.join(os.path.expanduser(os.getcwd()), virtual_env_dir_name)
+<op>
+====
 
-virtualenv.create_environment(venv_dir)
+    dev0        -- Run postgreSQL database and pgadmin containers.
 
-activate_this = venv_dir + "/bin/activate_this.py"
+    dev1        -- Same as dev0 plus: Export environment variables, install and activate python 
+                    virtual environment, install all project's dependencies, adjust some environment
+                    variables. In the end, run the BinanceDataStorageDaemon/main.py, make django 
+                    migrations, migrate and run the djnago runserver of the controller.
 
-exec(open(activate_this).read(), {'__file__': activate_this})
+    staging1    -- Build and run postgreSQL database, pgadmin, controler and binance storage data 
+                    containers
 
-command ='pip install -r requirements.txt'
+    staging2    -- Same as staging1, but instead to build, all containers images are from 
+                    container registry service.
+    
+    delivery1   -- Build the containers` images (no latest) and push them to specific container 
+                    registry service.
 
-os.system(command)
+    delivery2   -- Build the containers` LATEST images and push them to specific container 
+                    registry service.
 
-env_file = str(os.getcwd()) + '/dev.env'
+    aws         -- Run the production cluster on a AWS, from remote container`s images.
+
+
+'''
+
+mode = str(sys.argv[1])
+
+if ( mode == 'aws' ):
+
+    env_file = '/efs/.env'
+
+else:
+
+    env_file = str(os.getcwd()) + '/dev/dev.env'
 
 os.environ['env_file'] = env_file
 
-gf.export_env_var(env_file)
+export_status = gf.export_env_var(env_file)
 
-compose_file = str(os.getcwd()) + '/DockerCompose/dev1.yml'
+if (export_status == 'done'):
 
-command ='docker-compose -f ' + compose_file + ' up -d'
+    virtual_env_dir_name = 'venv'
 
-os.system(command)
+    venv_dir = os.path.join(os.path.expanduser(os.getcwd()), virtual_env_dir_name)
 
-time.sleep(60)
+    virtualenv.create_environment(venv_dir)
 
-os.environ['DB_HOST'] = 'localhost'
+    activate_this = venv_dir + "/bin/activate_this.py"
 
-controller_path = str(os.getcwd()) + '/controller/manage.py'
+    exec(open(activate_this).read(), {'__file__': activate_this})
 
-bdsd_path = str(os.getcwd()) + '/BinanceDataStorageDaemon/main.py'
+    modules_src = str(os.getcwd()) + '/modules/'
 
-command = 'python ' + controller_path + ' makemigrations'
-os.system(command)
+    bdsd_modules_dst = str(os.getcwd()) + '/BinanceDataStorageDaemon/modules/'
 
-command = 'python ' + controller_path + ' migrate --noinput'
-os.system(command)
+    if (os.path.exists(bdsd_modules_dst) == True):
 
-if (os.environ['controller_create_superuser'] == 'true'):
+        shutil.rmtree(bdsd_modules_dst)
 
-    create_super_user_cmd = '''import os
+    shutil.copytree(modules_src, bdsd_modules_dst)
+
+    warning = bdsd_modules_dst + '/__DO_NOT_EDIT_FILES_HERE__'
+    open(warning, 'a').close()
+
+    if (mode == ('dev0' or 'dev1')):
+
+        os.environ['run_mode'] = 'dev'
+
+        command ='pip install -r requirements.txt'
+        os.system(command)
+
+        compose_file = str(os.getcwd()) + '/DockerCompose/dev.yml'
+
+        command ='docker-compose -f ' + compose_file + ' up -d'
+        os.system(command)
+
+        command = 'jupyter notebook > dev/jupyterlog 2>&1 &'
+
+        os.system(command)
+
+        if (mode == 'dev1'):
+
+            time.sleep(60)
+
+            os.environ['DB_HOST'] = 'localhost'
+
+            controller_path = str(os.getcwd()) + '/controller/manage.py'
+
+            controller_server = str(os.environ['controller_HOST']) + ':' + str(os.environ['controller_PORT'])
+
+            bdsd_path = str(os.getcwd()) + '/BinanceDataStorageDaemon/main.py'
+
+            command = 'python ' + controller_path + ' makemigrations'
+            os.system(command)
+
+            command = 'python ' + controller_path + ' migrate --noinput'
+            os.system(command)
+
+            if (os.environ['controller_create_superuser'] == 'true'):
+
+                create_super_user_cmd = '''import os
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if (not User.objects.filter(username=os.environ.get('controller_SUPERUSER_NAME')).exists()):
@@ -55,17 +118,38 @@ if (not User.objects.filter(username=os.environ.get('controller_SUPERUSER_NAME')
 else:
     pass'''
 
-    subprocess.Popen([sys.executable, controller_path, 'shell', '-c', create_super_user_cmd], stdout=None)
+                subprocess.Popen([sys.executable, controller_path, 'shell', '-c', create_super_user_cmd], stdout=None)
 
-controller_server = str(os.environ['controller_HOST']) + ':' + str(os.environ['controller_PORT'])
+            controller_pid = subprocess.Popen([sys.executable, controller_path, 'runserver', controller_server], stdout=None)
 
-controller_pid = subprocess.Popen([sys.executable, controller_path, 'runserver', controller_server], stdout=None)
+            bdsd_pid = subprocess.Popen([sys.executable, bdsd_path], stdout=None)
 
-bdsd_pid = subprocess.Popen([sys.executable, bdsd_path], stdout=None)
+            msg = '''
+        controller_pid..: ''' + str(controller_pid.pid) + '''
+        bdsd_pid........: ''' + str(bdsd_pid.pid) + '''
 
-msg = '''
-controller_pid..: ''' + str(controller_pid.pid) + '''
-bdsd_pid........: ''' + str(bdsd_pid.pid) + '''
+        '''
+            print(msg)
 
-'''
-print(msg)
+    elif (mode == 'staging1'):
+
+        command ='pip install docker-compose'
+        os.system(command)
+
+        compose_file = 'DockerCompose/staging1.yml'
+        
+        command ='docker-compose -f ' + compose_file + ' down'
+        os.system(command)
+
+        #command ='docker-compose -f ' + compose_file + ' build --no-cache controller'
+        #os.system(command)
+
+        #command ='docker-compose -f ' + compose_file + ' build --no-cache binancedatastoragedaemon'
+        #os.system(command)
+
+        command ='docker-compose -f ' + compose_file + ' up -d'
+        os.system(command)
+
+else:
+
+    print('Arquivo de variáveis de ambiente não encontrado')

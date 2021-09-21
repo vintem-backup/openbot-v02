@@ -4,12 +4,11 @@
 import requests
 import json
 import time
+from datetime import datetime
 from . import general_functions as gf
 
 #ESCREVER DOCSTRING
 def binance_klines_request_handler(pair, interval, start_time, max_attempts):
-    
-    num_requests = 0
     
     klines = []
     
@@ -20,7 +19,6 @@ def binance_klines_request_handler(pair, interval, start_time, max_attempts):
     for i in range(max_attempts):
         
         #Tenta conexão com a Binance
-        num_requests+= 1
         try:
 
             response = requests.get(url)
@@ -32,7 +30,7 @@ def binance_klines_request_handler(pair, interval, start_time, max_attempts):
             
             msg = '''
 FROM.: binance_klines_request_handler
-AT...: ''' + str(datetime.utcnow()) + '''
+AT...: ''' + str(datetime.now()) + '''
 
 Par ''' + pair + ''': Comunicação com a Binance falhou no ''' + str(i+1) + '''\u00bA request, devido ao erro:
 
@@ -52,4 +50,4 @@ Par ''' + pair + ''': Comunicação com a Binance falhou no ''' + str(i+1) + '''
                 
                 break
 
-    return klines, num_requests
+    return klines
